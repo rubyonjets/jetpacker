@@ -79,7 +79,6 @@ class Webpacker::Railtie < ::Rails::Railtie
   end
 
   rake_tasks do
-    tasks_path = File.expand_path("../tasks", __dir__)
-    Dir.glob("#{tasks_path}/**/*.rake").sort.each { |ext| load ext }
+    Webpacker::RakeTasks.load!
   end
 end
