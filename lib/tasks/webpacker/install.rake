@@ -1,12 +1,13 @@
-WEBPACKER_APP_TEMPLATE_PATH = File.expand_path("../../install/template.rb", __dir__)
+require "active_support/all"
 
 namespace :webpacker do
   desc "Install Webpacker in this application"
   task install: [:check_node, :check_yarn] do
-    if Rails::VERSION::MAJOR >= 5
-      exec "#{RbConfig.ruby} ./bin/rails app:template LOCATION=#{WEBPACKER_APP_TEMPLATE_PATH}"
-    else
-      exec "#{RbConfig.ruby} ./bin/rake rails:template LOCATION=#{WEBPACKER_APP_TEMPLATE_PATH}"
-    end
+    template = File.expand_path("../../install/template.rb", __dir__)
+
+    require "rails/generators"
+    require "rails/generators/rails/app/app_generator"
+    generator = Rails::Generators::AppGenerator.new [Jets.root], {}, destination_root: Jets.root
+    generator.apply template, verbose: false
   end
 end

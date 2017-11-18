@@ -18,7 +18,7 @@ insert_into_file Webpacker.config.config_path, "    - .elm\n", after: /extension
 
 say "Updating Elm source location"
 gsub_file "elm-package.json", /\"\.\"\n/,
-  %("#{Webpacker.config.source_path.relative_path_from(Rails.root)}"\n)
+  %("#{Webpacker.config.source_path.relative_path_from(Jets.root)}"\n)
 
 say "Updating .gitignore to include elm-stuff folder"
 insert_into_file ".gitignore", "/elm-stuff\n", before: "/node_modules\n"

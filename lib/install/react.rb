@@ -1,6 +1,6 @@
 require "webpacker/configuration"
 
-babelrc = Rails.root.join(".babelrc")
+babelrc = Jets.root.join(".babelrc")
 
 if File.exist?(babelrc)
   react_babelrc = JSON.parse(File.read(babelrc))
