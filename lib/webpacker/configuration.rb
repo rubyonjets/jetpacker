@@ -30,7 +30,6 @@ class Webpacker::Configuration
   end
 
   def public_output_path
-    puts "public_output_path #{fetch(:public_output_path).inspect}"
     public_path.join(fetch(:public_output_path))
   end
 
