@@ -1,7 +1,9 @@
 /* eslint global-require: 0 */
 /* eslint import/no-dynamic-require: 0 */
 
-const { basename, dirname, join, relative, resolve } = require('path')
+const {
+  basename, dirname, join, relative, resolve
+} = require('path')
 const { sync } = require('glob')
 const extname = require('path-complete-extname')
 
@@ -16,15 +18,15 @@ const assetHost = require('./asset_host')
 
 const getLoaderList = () => {
   const result = new ConfigList()
-  Object.entries(rules).forEach(([key, rule]) => result.set(key, rule))
+  Object.keys(rules).forEach(key => result.append(key, rules[key]))
   return result
 }
 
 const getPluginList = () => {
   const result = new ConfigList()
-  result.set('Environment', new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))))
-  result.set('ExtractText', new ExtractTextPlugin('[name]-[contenthash].css'))
-  result.set('Manifest', new ManifestPlugin({ publicPath: assetHost.publicPath, writeToFileEmit: true }))
+  result.append('Environment', new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))))
+  result.append('ExtractText', new ExtractTextPlugin('[name]-[contenthash].css'))
+  result.append('Manifest', new ManifestPlugin({ publicPath: assetHost.publicPath, writeToFileEmit: true }))
   return result
 }
 
@@ -51,10 +53,10 @@ const getEntryObject = () => {
 
 const getModulePaths = () => {
   const result = new ConfigList()
-  result.set('source', resolve(config.source_path))
-  result.set('node_modules', 'node_modules')
+  result.append('source', resolve(config.source_path))
+  result.append('node_modules', 'node_modules')
   if (config.resolved_paths) {
-    config.resolved_paths.forEach(path => result.set(basename(path), path))
+    config.resolved_paths.forEach(path => result.append(basename(path), path))
   }
   return result
 }
