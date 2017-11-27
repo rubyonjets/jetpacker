@@ -73,6 +73,11 @@ class Webpacker::Compiler
     end
 
     def webpack_env
-      env.merge("NODE_ENV" => @webpacker.env, "ASSET_HOST" => ActionController::Base.helpers.compute_asset_host)
+      begin
+        asset_host = ActionController::Base.helpers.compute_asset_host
+      rescue NameError
+        asset_host = nil
+      end
+      env.merge("NODE_ENV" => @webpacker.env, "ASSET_HOST" => asset_host)
     end
 end

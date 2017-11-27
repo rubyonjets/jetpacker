@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] || "development"
-ENV["NODE_ENV"] ||= ENV["RAILS_ENV"]
+ENV["JETS_ENV"] ||= ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] || "development"
+ENV["NODE_ENV"] ||= ENV["JETS_ENV"]
 
 require "webpacker"
 require "webpacker/webpack_runner"
