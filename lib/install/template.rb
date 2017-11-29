@@ -10,9 +10,12 @@ copy_file "#{__dir__}/config/.postcssrc.yml", ".postcssrc.yml"
 say "Copying .babelrc to app root directory"
 copy_file "#{__dir__}/config/.babelrc", ".babelrc"
 
-say "Creating JavaScript app source directory"
-directory "#{__dir__}/javascript", Webpacker.config.source_path, force: options[:force]
-# Usage: rake webpacker:install FORCE=1
+# Jets handles creating javascript directory after webpacker:install runs
+unless defined?(Jets)
+  say "Creating JavaScript app source directory"
+  directory "#{__dir__}/javascript", Webpacker.config.source_path, force: options[:force]
+  # How to use the FORCE: rake webpacker:install FORCE=1
+end
 
 say "Installing binstubs"
 run "bundle binstubs webpacker"
