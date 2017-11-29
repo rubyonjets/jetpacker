@@ -162,7 +162,7 @@ live reload when manifest changes. If you have applied this workaround from [#72
 
 ### Breaking changes
 
-**Note:** requires running `bundle exec rails webpacker:install`
+**Note:** requires running `jets webpacker:install`
 
 `config/webpack/**/*.js`:
 
@@ -298,7 +298,7 @@ Following paths are watched by default -
 
   ```bash
   bundle update webpacker
-  bundle exec rails webpacker:install
+  jets webpacker:install
 
   # Remove old/unused configuration files
   rm config/webpack/paths.yml
@@ -318,7 +318,7 @@ Some of the changes made requires you to run below commands to install new chang
 
 ```
 bundle update webpacker
-bundle exec rails webpacker:install
+jets webpacker:install
 ```
 
 
@@ -368,10 +368,10 @@ This release requires you to run below commands to install new features.
 
 ```
 bundle update webpacker
-bundle exec rails webpacker:install
+jets webpacker:install
 
 # if installed react, vue or angular
-bundle exec rails webpacker:install:[react, angular, vue]
+jets webpacker:install:[react, angular, vue]
 ```
 
 ### Added (breaking changes)

@@ -87,7 +87,7 @@ and finally, run following to install Webpacker:
 
 ```bash
 bundle
-bundle exec rails webpacker:install
+jets webpacker:install
 
 # OR (on rails version < 5.0)
 bundle exec rake webpacker:install
@@ -210,7 +210,7 @@ config.webpacker.check_yarn_integrity = true
 ## Integrations
 
 Webpacker ships with basic out-of-the-box integration for React, Angular, Vue and Elm.
-You can see a list of available commands/tasks by running `bundle exec rails webpacker`:
+You can see a list of available commands/tasks by running `jets webpacker`:
 
 ### React
 
@@ -222,7 +222,7 @@ new Rails 5.1+ app using `--webpack=react` option:
 rails new myapp --webpack=react
 ```
 
-(or run `bundle exec rails webpacker:install:react` in a existing Rails app already
+(or run `jets webpacker:install:react` in a existing Rails app already
 setup with Webpacker).
 
 The installer will add all relevant dependencies using Yarn, any changes
@@ -240,7 +240,7 @@ new Rails 5.1+ app using `--webpack=angular` option:
 rails new myapp --webpack=angular
 ```
 
-(or run `bundle exec rails webpacker:install:angular` on a Rails app already
+(or run `jets webpacker:install:angular` on a Rails app already
 setup with Webpacker).
 
 The installer will add TypeScript and Angular core libraries using Yarn plus
@@ -258,7 +258,7 @@ new Rails 5.1+ app using `--webpack=vue` option:
 # Rails 5.1+
 rails new myapp --webpack=vue
 ```
-(or run `bundle exec rails webpacker:install:vue` on a Rails app already setup with Webpacker).
+(or run `jets webpacker:install:vue` on a Rails app already setup with Webpacker).
 
 The installer will add Vue and required libraries using Yarn plus
 any changes to the configuration files. An example component will
@@ -276,7 +276,7 @@ new Rails 5.1+ app using `--webpack=elm` option:
 rails new myapp --webpack=elm
 ```
 
-(or run `bundle exec rails webpacker:install:elm` on a Rails app already setup with Webpacker).
+(or run `jets webpacker:install:elm` on a Rails app already setup with Webpacker).
 
 The Elm library and core packages will be added via Yarn and Elm itself.
 An example `Main.elm` app will also be added to your project in `app/javascript`
@@ -360,7 +360,7 @@ Webpacker::Compiler.watched_paths << 'bower_components'
 ## Deployment
 
 Webpacker hooks up a new `webpacker:compile` task to `assets:precompile`, which gets run whenever you run `assets:precompile`. If you are not using Sprockets you
-can manually trigger `NODE_ENV=production bundle exec rails webpacker:compile`
+can manually trigger `NODE_ENV=production jets webpacker:compile`
 during your app deploy.
 
 

@@ -4,7 +4,7 @@
 ## ENOENT: no such file or directory - node-sass
 
 *  If you get this error `ENOENT: no such file or directory - node-sass` on Heroku
-or elsewhere during `assets:precompile` or `bundle exec rails webpacker:compile`
+or elsewhere during `assets:precompile` or `jets webpacker:compile`
 then you would need to rebuild node-sass. It's a bit of a weird error;
 basically, it can't find the `node-sass` binary.
 An easy solution is to create a postinstall hook - `npm rebuild node-sass` in
@@ -38,7 +38,7 @@ completed the compilation successfully before loading a view.
 
 ## webpack or webpack-dev-server not found
 
-* This could happen if  `webpacker:install` step is skipped. Please run `bundle exec rails webpacker:install` to fix the issue.
+* This could happen if  `webpacker:install` step is skipped. Please run `jets webpacker:install` to fix the issue.
 
 * If you encounter the above error on heroku after upgrading from Rails 4.x to 5.1.x, then the problem might be related to missing `yarn` binstub. Please run following commands to update/add binstubs:
 
