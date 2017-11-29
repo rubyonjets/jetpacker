@@ -11,7 +11,8 @@ say "Copying .babelrc to app root directory"
 copy_file "#{__dir__}/config/.babelrc", ".babelrc"
 
 say "Creating JavaScript app source directory"
-directory "#{__dir__}/javascript", Webpacker.config.source_path
+directory "#{__dir__}/javascript", Webpacker.config.source_path, force: options[:force]
+# Usage: rake webpacker:install FORCE=1
 
 say "Installing binstubs"
 run "bundle binstubs webpacker"
