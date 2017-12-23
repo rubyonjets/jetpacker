@@ -30,6 +30,8 @@ in which case you may not even need the asset pipeline. This is mostly relevant 
   - [Angular with TypeScript](#angular-with-typescript)
   - [Vue](#vue)
   - [Elm](#elm)
+  - [Coffeescript](#coffeescript)
+  - [Erb](#erb)
 - [Paths](#paths)
   - [Resolved](#resolved)
   - [Watched](#watched)
@@ -160,7 +162,12 @@ Once you start this development server, Webpacker will automatically start proxy
 webpack asset requests to this server. When you stop the server, it'll revert to
 on-demand compilation again.
 
-You can use environment variables as options supported by [webpack-dev-server](https://webpack.js.org/configuration/dev-server/) in the form `WEBPACKER_DEV_SERVER_<OPTION>`. Please note that these environment variables will always take precedence over the ones already set in the configuration file.
+You can use environment variables as options supported by
+[webpack-dev-server](https://webpack.js.org/configuration/dev-server/) in the
+form `WEBPACKER_DEV_SERVER_<OPTION>`. Please note that these environment
+variables will always take precedence over the ones already set in the
+configuration file, and that the _same_ environment variables must
+be available to the `rails server` process.
 
 ```bash
 WEBPACKER_DEV_SERVER_HOST=example.com WEBPACKER_DEV_SERVER_INLINE=true WEBPACKER_DEV_SERVER_HOT=false ./bin/webpack-dev-server
@@ -172,6 +179,12 @@ you can set the `host` when running `./bin/webpack-dev-server` binstub:
 
 ```bash
 WEBPACKER_DEV_SERVER_HOST=0.0.0.0 ./bin/webpack-dev-server
+```
+
+**Note:** You need to allow webpack-dev-server host as allowed origin for `connect-src` if you are running your application in a restrict CSP environment like Rails 5.2+. This can be done in Rails 5.2+ for development environment in the CSP initializer `config/initializers/content_security_policy.rb` with a snippet like this:
+
+```ruby
+  p.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035' if Rails.env.development?
 ```
 
 **Note:** Don't forget to prefix `ruby` when running these binstubs on windows
@@ -248,6 +261,23 @@ any changes to the configuration files. An example component is written in
 TypeScript will also be added to your project in `app/javascript` so that
 you can experiment with Angular right away.
 
+By default Angular uses a JIT compiler for development environment, this
+compiler is not compatible with restrictive CSP (Content Security
+Policy) environments like Rails 5.2+. You can use Angular AOT compiler
+in development with the [@ngtools/webpack](https://www.npmjs.com/package/@ngtools/webpack#usage) plugin.
+
+Alternatively if you're using Rails 5.2+ you can enable `unsafe-eval` rule for
+development environment, this can be done in the `config/initializers/content_security_policy.rb`
+with the following configuration:
+
+```ruby
+  if Rails.env.development?
+    p.script_src :self, :https, :unsafe_eval
+  else
+    p.script_src :self, :https
+  end
+```
+
 
 ### Vue
 
@@ -294,6 +324,25 @@ rails new myapp --webpack=elm
 The Elm library and core packages will be added via Yarn and Elm itself.
 An example `Main.elm` app will also be added to your project in `app/javascript`
 so that you can experiment with Elm right away.
+
+### Coffeescript
+
+To add [Coffeescript](http://coffeescript.org/) support,
+run `bundle exec rails webpacker:install:coffee` on a Rails app already
+setup with Webpacker.
+
+An example `hello_coffee.coffee` file will also be added to your project
+in `app/javascript/packs` so that you can experiment with Coffeescript right away.
+
+### Erb
+
+To add [Erb](https://apidock.com/ruby/ERB) support in your JS templates,
+run `bundle exec rails webpacker:install:erb` on a Rails app already
+setup with Webpacker.
+
+An example `hello_erb.js.erb` file will also be added to your project
+in `app/javascript/packs` so that you can experiment with Erb flavoured
+javascript right away.
 
 
 ## Paths
@@ -372,10 +421,7 @@ Webpacker::Compiler.watched_paths << 'bower_components'
 
 ## Deployment
 
-Webpacker hooks up a new `webpacker:compile` task to `assets:precompile`, which gets run whenever you run `assets:precompile`. If you are not using Sprockets you
-can manually trigger `NODE_ENV=production jets webpacker:compile`
-during your app deploy.
-
+Webpacker hooks up a new `webpacker:compile` task to `assets:precompile`, which gets run whenever you run `assets:precompile`. If you are not using Sprockets `webpacker:compile` is automatically aliased to `assets:precompile`. Remember to set NODE_ENV environment variable to production during deployment or when running the rake task.
 
 ## Docs
 

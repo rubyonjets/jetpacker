@@ -3,7 +3,7 @@ require "rails/railtie"
 require "webpacker/helper"
 require "webpacker/dev_server_proxy"
 
-class Webpacker::Railtie < ::Rails::Railtie
+class Webpacker::Engine < ::Rails::Engine
   # Allows Webpacker config values to be set via Rails env config files
   config.webpacker = ActiveSupport::OrderedOptions.new
   config.webpacker.check_yarn_integrity = false
@@ -25,9 +25,9 @@ class Webpacker::Railtie < ::Rails::Railtie
   #     - add `config.webpacker.check_yarn_integrity = false`
   initializer "webpacker.yarn_check" do |app|
     if File.exist?("yarn.lock") && app.config.webpacker.check_yarn_integrity
-      ok = system("yarn check --integrity")
+      output = `yarn check --integrity 2>&1`
 
-      if !ok
+      unless $?.success?
         warn "\n\n"
         warn "========================================"
         warn "  Your Yarn packages are out of date!"
@@ -36,6 +36,8 @@ class Webpacker::Railtie < ::Rails::Railtie
         warn "\n\n"
         warn "To disable this check, please add `config.webpacker.check_yarn_integrity = false`"
         warn "to your Rails development config file (config/environments/development.rb)."
+        warn "\n\n"
+        warn output
         warn "\n\n"
 
         exit(1)
@@ -76,9 +78,5 @@ class Webpacker::Railtie < ::Rails::Railtie
       Webpacker.bootstrap
       Spring.after_fork { Webpacker.bootstrap } if defined?(Spring)
     end
-  end
-
-  rake_tasks do
-    Webpacker::RakeTasks.load!
   end
 end

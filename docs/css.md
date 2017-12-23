@@ -77,7 +77,7 @@ file in your app root with standard plugins.
 
 ```yml
 plugins:
-  postcss-smart-import: {}
+  postcss-import: {}
   postcss-cssnext: {}
 ```
 
@@ -89,6 +89,28 @@ file for the entry point.  Loading the stylesheet will also load the
 CSS for any nested components.
 
 ```erb
-<%= stylesheet_pack_tag 'hello_vue' %> 
+<%= stylesheet_pack_tag 'hello_vue' %>
 <%= javascript_pack_tag 'hello_vue' %>
+```
+
+## Resolve url loader
+
+Since `Sass/libsass` does not provide url rewriting, all linked assets must be relative to the output. Add the missing url rewriting using the resolve-url-loader. Place it directly after the sass-loader in the loader chain.
+
+
+```bash
+yarn add resolve-url-loader
+```
+
+```js
+// webpack/environment.js
+const { environment } = require('@rails/webpacker')
+
+// resolve-url-loader must be used before sass-loader
+environment.loaders.get('sass').use.splice(-1, 0, {
+  loader: 'resolve-url-loader',
+  options: {
+    attempts: 1
+  }
+});
 ```

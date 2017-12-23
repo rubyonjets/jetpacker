@@ -1,4 +1,96 @@
-## [Unreleased] - 2017-10-04
+**Please note that Webpacker 3.1.0 and 3.1.1 has some serious bugs so please consider using either 3.0.2 or 3.2.0**
+
+## [3.2.0] - 2017-12-16
+
+### To upgrade:
+
+```bash
+bundle update webpacker
+yarn upgrade @rails/webpacker
+```
+
+### Breaking changes
+
+If you are using react, vue, angular, elm, erb or coffeescript inside your
+`packs/` please re-run the integration installers as described in the README.
+
+```bash
+bundle exec rails webpacker:install:react
+bundle exec rails webpacker:install:vue
+bundle exec rails webpacker:install:angular
+bundle exec rails webpacker:install:elm
+bundle exec rails webpacker:install:erb
+bundle exec rails webpacker:install:coffee
+```
+
+Or simply copy required loaders used in your app from
+https://github.com/rails/webpacker/tree/master/lib/install/loaders
+into your `config/webpack/loaders/`
+directory and add it to webpack build from `config/webpack/environment.js`
+
+```js
+const erb =  require('./loaders/erb')
+const elm =  require('./loaders/elm')
+const typescript =  require('./loaders/typescript')
+const vue =  require('./loaders/vue')
+const coffee =  require('./loaders/coffee')
+
+environment.loaders.append('coffee', coffee)
+environment.loaders.append('vue', vue)
+environment.loaders.append('typescript', typescript)
+environment.loaders.append('elm', elm)
+environment.loaders.append('erb', erb)
+```
+
+In `.postcssrc.yml` you need to change the plugin name from `postcss-smart-import` to `postcss-import`:
+
+```yml
+plugins:
+  postcss-import: {}
+  postcss-cssnext: {}
+```
+
+### Added (npm module)
+
+- Upgrade gems and webpack dependencies
+
+- `postcss-import` in place of `postcss-smart-import`
+
+
+### Removed (npm module)
+
+- `postcss-smart-import`, `coffee-loader`, `url-loader`, `rails-erb-loader` as dependencies
+
+-  `publicPath` from file loader [#1107](https://github.com/rails/webpacker/pull/1107)
+
+
+### Fixed (npm module)
+
+- Return native array type for `ConfigList` [#1098](https://github.com/rails/webpacker/pull/1098)
+
+
+### Added (Gem)
+
+- New `asset_pack_url` helper [#1102](https://github.com/rails/webpacker/pull/1102)
+
+- New installers for coffee and erb
+
+```bash
+bundle exec rails webpacker:install:erb
+bundle exec rails webpacker:install:coffee
+```
+
+- Resolved paths from webpacker.yml to compiler watched list
+
+
+## [3.1.1] - 2017-12-11
+
+### Fixed
+
+- Include default webpacker.yml config inside npm package
+
+
+## [3.1.0] - 2017-12-11
 
 
 ### Added (npm module)
@@ -25,7 +117,7 @@ const jsonLoader =  {
   loader: 'json-loader'
 }
 
-environment.loaders.set('json', jsonLoader)
+environment.loaders.append('json', jsonLoader)
 environment.loaders.prepend('json', jsonLoader)
 environment.loaders.insert('json', jsonLoader, { after: 'style' } )
 environment.loaders.insert('json', jsonLoader, { before: 'babel' } )
@@ -36,7 +128,7 @@ manifestPlugin.opts.writeToFileEmit = false
 
 // Update coffee loader to use coffeescript 2
 const babelLoader = environment.loaders.get('babel')
-environment.loaders.set('coffee', {
+environment.loaders.insert('coffee', {
   test: /\.coffee(\.erb)?$/,
   use:  babelLoader.use.concat(['coffee-loader'])
 }, { before: 'json' })
@@ -45,7 +137,7 @@ environment.loaders.set('coffee', {
 - Expose `resolve.modules` paths like loaders and plugins
 
 ```js
-environment.resolvedModules.set('vendor', 'vendor')
+environment.resolvedModules.append('vendor', 'vendor')
 ```
 
 - Enable sourcemaps in `style` and `css` loader
@@ -65,6 +157,34 @@ cssLoader.options = Object.assign(cssLoader.options, {
 })
 ```
 
+- Expose rest of configurable dev server options from webpacker.yml
+
+```yml
+quiet: false
+headers:
+  'Access-Control-Allow-Origin': '*'
+watch_options:
+  ignored: /node_modules/
+```
+
+- `pretty` option to disable/enable color and progress output when running dev server
+
+```yml
+dev_server:
+  pretty: false
+```
+
+- Enforce deterministic loader order in desc order, starts processing from top to bottom
+
+- Enforce the entire path of all required modules match the exact case of the actual path on disk using [case sensitive paths plugin](https://github.com/Urthen/case-sensitive-paths-webpack-plugin).
+
+- Add url loader to process and embed smaller static files
+
+
+### Removed
+
+- resolve url loader [#1042](https://github.com/rails/webpacker/issues/1042)
+
 ### Added (Gem)
 
 - Allow skipping webpacker compile using an env variable
@@ -75,6 +195,9 @@ WEBPACKER_PRECOMPILE=false bundle exec rails assets:precompile
 ```
 
 - Use `WEBPACKER_ASSET_HOST` instead of `ASSET_HOST` for CDN
+
+- Alias `webpacker:compile` task to `assets:precompile` if is not defined so it works
+without sprockets
 
 
 ## [3.0.2] - 2017-10-04

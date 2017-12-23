@@ -21,6 +21,14 @@ class Webpacker::Configuration
     root_path.join(fetch(:source_path))
   end
 
+  def resolved_paths
+    fetch(:resolved_paths)
+  end
+
+  def resolved_paths_globbed
+    resolved_paths.map { |p| "#{p}/**/*" }
+  end
+
   def source_entry_path
     source_path.join(fetch(:source_entry_path))
   end

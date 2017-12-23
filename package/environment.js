@@ -10,11 +10,11 @@ const extname = require('path-complete-extname')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 const { ConfigList, ConfigObject } = require('./config_types')
 const rules = require('./rules')
 const config = require('./config')
-const assetHost = require('./asset_host')
 
 const getLoaderList = () => {
   const result = new ConfigList()
@@ -25,8 +25,9 @@ const getLoaderList = () => {
 const getPluginList = () => {
   const result = new ConfigList()
   result.append('Environment', new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))))
+  result.append('CaseSensitivePaths', new CaseSensitivePathsPlugin())
   result.append('ExtractText', new ExtractTextPlugin('[name]-[contenthash].css'))
-  result.append('Manifest', new ManifestPlugin({ publicPath: assetHost.publicPath, writeToFileEmit: true }))
+  result.append('Manifest', new ManifestPlugin({ publicPath: config.publicPath, writeToFileEmit: true }))
   return result
 }
 
@@ -54,10 +55,10 @@ const getEntryObject = () => {
 const getModulePaths = () => {
   const result = new ConfigList()
   result.append('source', resolve(config.source_path))
-  result.append('node_modules', 'node_modules')
   if (config.resolved_paths) {
-    config.resolved_paths.forEach(path => result.append(basename(path), path))
+    config.resolved_paths.forEach(path => result.append(path, resolve(path)))
   }
+  result.append('node_modules', 'node_modules')
   return result
 }
 
@@ -66,8 +67,8 @@ const getBaseConfig = () =>
     output: {
       filename: '[name]-[chunkhash].js',
       chunkFilename: '[name]-[chunkhash].chunk.js',
-      path: assetHost.path,
-      publicPath: assetHost.publicPath
+      path: config.outputPath,
+      publicPath: config.publicPath
     },
 
     resolve: {
@@ -76,6 +77,14 @@ const getBaseConfig = () =>
 
     resolveLoader: {
       modules: ['node_modules']
+    },
+
+    node: {
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty'
     }
   })
 
@@ -93,6 +102,7 @@ module.exports = class Environment {
       entry: this.entry.toObject(),
 
       module: {
+        strictExportPresence: true,
         rules: this.loaders.values()
       },
 
