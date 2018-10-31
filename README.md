@@ -2,12 +2,14 @@
 
 ## Version Numbering Scheme
 
-Since this project is a fork of the rails/webpacker project. We try to loosely follow it's version numbering. However, we cannot use the same exact git tag because git tags are globally unique. As a workaround, we'll add 100 to the patch version number.  Example:
+Since this project is a fork of the rails/webpacker project. We try to **loosely** follow it's version numbering. However, we cannot use the same exact git tag because git tags are globally unique. As a workaround, we'll add at least 100 to the patch version number.  Example:
 
 Gem Name | Version Number
 --- | ---
 webpacker | 3.2.0
 webpacker-jets | 3.2.100
+
+Note, sometimes it's not exactly 100 as there are sometimes additional fixes on the jets fork side only.
 
 ## Release
 

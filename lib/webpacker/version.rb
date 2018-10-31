@@ -5,5 +5,5 @@ module Webpacker
   # Example:
   #  webpacker-jets 3.2.100 # added 100 to the patch version
   #  webpacker 3.2.0 # original
-  VERSION = "3.2.100".freeze
+  VERSION = "3.2.101".freeze
 end
