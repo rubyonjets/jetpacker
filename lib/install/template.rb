@@ -18,7 +18,7 @@ unless defined?(Jets)
 end
 
 say "Installing binstubs"
-run "bundle binstubs webpacker"
+run "bundle binstubs webpacker-jets"
 
 if File.exists?(".gitignore")
   append_to_file ".gitignore", <<-EOS
