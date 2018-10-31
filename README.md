@@ -1,5 +1,9 @@
 # Webpacker
 
+NOTE: This is a fork of [rails/webpacker](https://github.com/rails/webpacker) to work with [jets](http://rubyonjets.com/). The master branch tries to mirror the upstream repo and jets changes are actually in the [tongueroo/webpacker jets branch](https://github.com/tongueroo/webpacker/tree/jets).
+
+In that branch the gem is also renamed and released as webpacker-jets.
+
 ![travis-ci status](https://api.travis-ci.org/rails/webpacker.svg?branch=master)
 [![node.js](https://img.shields.io/badge/node-%3E%3D%206.0.0-brightgreen.svg)](https://nodejs.org/en/)
 [![Gem](https://img.shields.io/gem/v/webpacker.svg)](https://github.com/rails/webpacker)
