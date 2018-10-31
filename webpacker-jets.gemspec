@@ -2,12 +2,16 @@ $:.push File.expand_path("../lib", __FILE__)
 require "webpacker/version"
 
 Gem::Specification.new do |s|
-  s.name     = "webpacker"
+  s.name     = "webpacker-jets"
   s.version  = Webpacker::VERSION
-  s.authors  = [ "David Heinemeier Hansson", "Gaurav Tiwari" ]
-  s.email    = [ "david@basecamp.com", "gaurav@gauravtiwari.co.uk" ]
-  s.summary  = "Use webpack to manage app-like JavaScript modules in Rails"
-  s.homepage = "https://github.com/rails/webpacker"
+  # Original authors
+  s.authors  = [ "Tung Nguyen" ]
+  s.email    = [ "tongueroo@gmail.com" ]
+  # Original authors
+  # s.authors  = [ "David Heinemeier Hansson", "Gaurav Tiwari" ]
+  # s.email    = [ "david@basecamp.com", "gaurav@gauravtiwari.co.uk" ]
+  s.summary  = "Use webpack to manage app-like JavaScript modules in Jets"
+  s.homepage = "https://github.com/tongueroo/webpacker"
   s.license  = "MIT"
   s.bindir   = "exe"
   s.executables = `git ls-files -- exe/*`.split("\n").map { |f| File.basename(f) }
