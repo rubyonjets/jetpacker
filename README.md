@@ -11,6 +11,15 @@ In that branch the gem is also renamed and released as webpacker-jets.
 
 The rest of the Readme is the original README.
 
+## Version Numbering Scheme
+
+Since this project is a fork of the rails/webpacker project. We try to loosely follow it's version numbering. However, we cannot use the same exact git tag because git tags are globally unique. As a workaround, we'll add 100 to the patch version number.  Example:
+
+Gem Name | Version Number
+--- | ---
+webpacker | 3.2.0
+webpacker-jets | 3.2.100
+
 ---
 
 ![travis-ci status](https://api.travis-ci.org/rails/webpacker.svg?branch=master)
