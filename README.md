@@ -1,16 +1,5 @@
 # Webpacker
 
-NOTE: This is a fork of [rails/webpacker](https://github.com/rails/webpacker) to work with [jets](http://rubyonjets.com/). The master branch tries to mirror the upstream repo and jets changes are actually in the [tongueroo/webpacker jets branch](https://github.com/tongueroo/webpacker/tree/jets).
-
-In that branch the gem is also renamed and released as webpacker-jets.
-
-## Release
-
-    git checkout jets
-    rake release
-
-The rest of the Readme is the original README.
-
 ## Version Numbering Scheme
 
 Since this project is a fork of the rails/webpacker project. We try to loosely follow it's version numbering. However, we cannot use the same exact git tag because git tags are globally unique. As a workaround, we'll add 100 to the patch version number.  Example:
@@ -19,6 +8,13 @@ Gem Name | Version Number
 --- | ---
 webpacker | 3.2.0
 webpacker-jets | 3.2.100
+
+## Release
+
+    git checkout jets
+    rake release
+
+The rest of the Readme is the original README.
 
 ---
 
