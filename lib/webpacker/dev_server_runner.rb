@@ -19,7 +19,7 @@ module Webpacker
         @config = Configuration.new(
           root_path: app_root,
           config_path: app_root.join("config/webpacker.yml"),
-          env: ENV["RAILS_ENV"]
+          env: ENV["JETS_ENV"]
         )
 
         dev_server = DevServer.new(@config)
@@ -29,7 +29,7 @@ module Webpacker
         @pretty            = dev_server.pretty?
 
       rescue Errno::ENOENT, NoMethodError
-        $stdout.puts "webpack dev_server configuration not found in #{@config.config_path}[#{ENV["RAILS_ENV"]}]."
+        $stdout.puts "webpack dev_server configuration not found in #{@config.config_path}[#{ENV["JETS_ENV"]}]."
         $stdout.puts "Please run bundle exec rails webpacker:install to install Webpacker"
         exit!
       end

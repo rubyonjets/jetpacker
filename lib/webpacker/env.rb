@@ -18,11 +18,11 @@ class Webpacker::Env
 
   private
     def current
-      Rails.env.presence_in(available_environments)
+      Jets.env.presence_in(available_environments)
     end
 
     def fallback_env_warning
-      logger.info "RAILS_ENV=#{Rails.env} environment is not defined in config/webpacker.yml, falling back to #{DEFAULT} environment"
+      logger.info "JETS_ENV=#{Jets.env} environment is not defined in config/webpacker.yml, falling back to #{DEFAULT} environment"
     end
 
     def available_environments

@@ -1,14 +1,14 @@
 require "webpacker/configuration"
 
 say "Copying elm loader to config/webpack/loaders"
-copy_file "#{__dir__}/loaders/elm.js", Rails.root.join("config/webpack/loaders/elm.js").to_s
+copy_file "#{__dir__}/loaders/elm.js", Jets.root.join("config/webpack/loaders/elm.js").to_s
 
 say "Adding elm loader to config/webpack/environment.js"
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "const elm =  require('./loaders/elm')\n",
   after: /require\(('|")@rails\/webpacker\1\);?\n/
 
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "environment.loaders.prepend('elm', elm)\n",
   before: "module.exports"
 
@@ -31,7 +31,7 @@ insert_into_file Webpacker.config.config_path, "- .elm\n".indent(4), after: /\s+
 
 say "Updating Elm source location"
 gsub_file "elm.json", /\"src\"\n/,
-  %("#{Webpacker.config.source_path.relative_path_from(Rails.root)}"\n)
+  %("#{Webpacker.config.source_path.relative_path_from(Jets.root)}"\n)
 
 say "Updating .gitignore to include elm-stuff folder"
 insert_into_file ".gitignore", "/elm-stuff\n", before: "/node_modules\n"

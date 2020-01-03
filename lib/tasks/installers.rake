@@ -14,28 +14,23 @@ dependencies = {
   "Angular": [:typescript]
 }
 
-bin_path = ENV["BUNDLE_BIN"] || "./bin"
-
 namespace :webpacker do
   namespace :install do
     installers.each do |name, task_name|
       desc "Install everything needed for #{name}"
       task task_name => ["webpacker:verify_install"] do
+        require "rails/generators"
+        require "rails/generators/rails/app/app_generator"
+        generator = Rails::Generators::AppGenerator.new [Jets.root], {force: ENV['FORCE']}, destination_root: Jets.root
+
         template = File.expand_path("../install/#{task_name}.rb", __dir__)
-        base_path =
-          if Rails::VERSION::MAJOR >= 5
-            "#{RbConfig.ruby} #{bin_path}/rails app:template"
-          else
-            "#{RbConfig.ruby} #{bin_path}/rake rails:template"
-          end
+        generator.apply template, verbose: false
 
         dependencies[name] ||= []
         dependencies[name].each do |dependency|
           dependency_template = File.expand_path("../install/#{dependency}.rb", __dir__)
-          system "#{base_path} LOCATION=#{dependency_template}"
+          generator.apply dependency_template, verbose: false
         end
-
-        exec "#{base_path} LOCATION=#{template}"
       end
     end
   end

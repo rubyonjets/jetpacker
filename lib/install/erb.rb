@@ -1,14 +1,14 @@
 require "webpacker/configuration"
 
 say "Copying erb loader to config/webpack/loaders"
-copy_file "#{__dir__}/loaders/erb.js", Rails.root.join("config/webpack/loaders/erb.js").to_s
+copy_file "#{__dir__}/loaders/erb.js", Jets.root.join("config/webpack/loaders/erb.js").to_s
 
 say "Adding erb loader to config/webpack/environment.js"
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "const erb = require('./loaders/erb')\n",
   after: /require\(('|")@rails\/webpacker\1\);?\n/
 
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "environment.loaders.prepend('erb', erb)\n",
   before: "module.exports"
 

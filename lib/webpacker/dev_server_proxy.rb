@@ -5,7 +5,7 @@ class Webpacker::DevServerProxy < Rack::Proxy
 
   def initialize(app = nil, opts = {})
     @webpacker = opts.delete(:webpacker) || Webpacker.instance
-    opts[:streaming] = false if Rails.env.test? && !opts.key?(:streaming)
+    opts[:streaming] = false if Jets.env.test? && !opts.key?(:streaming)
     super
   end
 

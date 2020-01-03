@@ -4,7 +4,7 @@ additional_packages = ""
 example_source = "typescript"
 
 # Additional configuration is required for React projects
-package_json = Rails.root.join("package.json")
+package_json = Jets.root.join("package.json")
 if File.exist?(package_json)
   package = JSON.parse(File.read(package_json))
   package["dependencies"] ||= {}
@@ -16,14 +16,14 @@ if File.exist?(package_json)
 end
 
 say "Copying typescript loader to config/webpack/loaders"
-copy_file "#{__dir__}/loaders/typescript.js", Rails.root.join("config/webpack/loaders/typescript.js").to_s
+copy_file "#{__dir__}/loaders/typescript.js", Jets.root.join("config/webpack/loaders/typescript.js").to_s
 
 say "Adding typescript loader to config/webpack/environment.js"
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "const typescript =  require('./loaders/typescript')\n",
   after: /require\(('|")@rails\/webpacker\1\);?\n/
 
-insert_into_file Rails.root.join("config/webpack/environment.js").to_s,
+insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "environment.loaders.prepend('typescript', typescript)\n",
   before: "module.exports"
 

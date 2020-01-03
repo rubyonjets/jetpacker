@@ -1,7 +1,7 @@
 require "webpacker/configuration"
 require "fileutils"
 
-replace_babel_config = FileUtils.compare_file(Rails.root.join("babel.config.js"), "#{__dir__}/config/babel.config.js")
+replace_babel_config = FileUtils.compare_file(Jets.root.join("babel.config.js"), "#{__dir__}/config/babel.config.js")
 
 say "Copying babel.config.js to app root directory"
 copy_file "#{__dir__}/examples/react/babel.config.js", "babel.config.js", force: replace_babel_config

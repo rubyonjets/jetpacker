@@ -43,4 +43,4 @@ require "webpacker/compiler"
 require "webpacker/commands"
 require "webpacker/dev_server"
 
-require "webpacker/railtie" if defined?(Rails)
+# require "webpacker/railtie" if defined?(Rails)

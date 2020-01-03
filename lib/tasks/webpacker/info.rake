@@ -4,6 +4,7 @@ namespace :webpacker do
   desc "Provide information on Webpacker's environment"
   task :info do
     $stdout.puts "Ruby: #{`ruby --version`}"
+    $stdout.puts "Jets: #{Jets.version}"
     $stdout.puts "Rails: #{Rails.version}"
     $stdout.puts "Webpacker: #{Webpacker::VERSION}"
     $stdout.puts "Node: #{`node --version`}"

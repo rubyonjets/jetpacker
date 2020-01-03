@@ -3,7 +3,7 @@ class Webpacker::Instance
 
   attr_reader :root_path, :config_path
 
-  def initialize(root_path: Rails.root, config_path: Rails.root.join("config/webpacker.yml"))
+  def initialize(root_path: Jets.root, config_path: Jets.root.join("config/webpacker.yml"))
     @root_path, @config_path = root_path, config_path
   end
 
