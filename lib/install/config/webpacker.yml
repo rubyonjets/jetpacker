@@ -17,7 +17,13 @@ default: &default
   cache_manifest: false
 
   # Extract and emit a css file
-  extract_css: false
+  # Note: Different from original webpacker default which is extract_css: false
+  # Unsure if this is really a better default. But want to maintain backward compatiblity when folks upgrade Jets.
+  # Notes:
+  # https://github.com/rails/webpacker/issues/2059
+  # https://github.com/rails/webpacker/issues/2202
+  # https://github.com/rails/webpacker/issues/2342
+  extract_css: true
 
   static_assets_extensions:
     - .jpg
