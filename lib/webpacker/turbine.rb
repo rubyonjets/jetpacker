@@ -47,7 +47,7 @@ module Webpacker
           exit(1)
         end
       end
-    end
+    end unless ENV['AWS_LAMBDA_FUNCTION_NAME'] # dont run yarn check on lambda
 
     # TODO: add support load middleware in a Turbine
     # initializer "webpacker.proxy" do |app|
