@@ -20,6 +20,7 @@ Summarizing the changes because they're impossible to remember 🤦🏻‍♂️
 * add `Jets.version` to info command
 * Fix generators by using `Rails::Generators::AppGenerator` directly instead of `bin/stubs`
 * 2 separate versions: `Jetpacker::VERSION` and `Webpacker::VERSION`
+* Default `extract_css: true`
 
 Happy Hackin' 😁
 Tung
