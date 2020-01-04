@@ -1,4 +1,4 @@
 # Separate version from Webpacker version for the jetpacker gem
 module Jetpacker
-  VERSION = "0.4.0"
+  VERSION = "0.4.1"
 end
