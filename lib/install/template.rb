@@ -13,12 +13,12 @@ copy_file "#{__dir__}/config/babel.config.js", "babel.config.js"
 say "Copying .browserslistrc to app root directory"
 copy_file "#{__dir__}/config/.browserslistrc", ".browserslistrc"
 
-if Dir.exists?(Webpacker.config.source_path)
-  say "The JavaScript app source directory already exists"
-else
-  say "Creating JavaScript app source directory"
-  directory "#{__dir__}/javascript", Webpacker.config.source_path
-end
+# if Dir.exists?(Webpacker.config.source_path)
+#   say "The JavaScript app source directory already exists"
+# else
+#   say "Creating JavaScript app source directory"
+#   directory "#{__dir__}/javascript", Webpacker.config.source_path
+# end
 
 apply "#{__dir__}/binstubs.rb"
 
