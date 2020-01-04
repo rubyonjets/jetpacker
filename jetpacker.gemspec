@@ -6,12 +6,12 @@ Gem::Specification.new do |s|
   s.version  = Jetpacker::VERSION
   s.authors  = [ "Tung Nguyen" ]
   s.email    = [ "tongueroo@gmail.com" ]
-  # Only commented out, so people do not accidentally contact incorrect person for jetspacker specific related issues.
+  # Only commented out, so people do not accidentally contact the incorrect person for jetspacker specific related issues.
   # Credit goes to original authors of the work:
   # s.authors  = [ "David Heinemeier Hansson", "Gaurav Tiwari" ]
   # s.email    = [ "david@basecamp.com", "gaurav@gauravtiwari.co.uk" ]
   s.summary  = "Use webpack to manage app-like JavaScript modules in Jets"
-  s.homepage = "https://github.com/tonguero/jetpacker"
+  s.homepage = "https://github.com/tongueroo/jetpacker"
   s.license  = "MIT"
 
   s.metadata = {
