@@ -1,5 +1,6 @@
 require "webpacker/helper"
 require "webpacker/dev_server_proxy"
+require "jets"
 
 module Webpacker
   class Turbine < ::Jets::Turbine
