@@ -26,8 +26,13 @@ insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
 insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "environment.loaders.prepend('typescript', typescript)\n",
   before: "module.exports"
+say "Adding TypeScript preset to babel.config.js"
 
-say "Copying tsconfig.json to the Rails root directory for typescript"
+insert_into_file Jets.root.join("babel.config.js").to_s,
+  ",\n      ['@babel/preset-typescript', { 'allExtensions': true, 'isTSX': true }]",
+  before: /\s*\].filter\(Boolean\),\n\s*plugins: \[/
+
+say "Copying tsconfig.json to the Jets root directory for typescript"
 copy_file "#{__dir__}/examples/#{example_source}/tsconfig.json", "tsconfig.json"
 
 say "Updating webpack paths to include .ts file extension"
@@ -41,6 +46,6 @@ copy_file "#{__dir__}/examples/typescript/hello_typescript.ts",
   "#{Webpacker.config.source_entry_path}/hello_typescript.ts"
 
 say "Installing all typescript dependencies"
-run "yarn add typescript ts-loader #{additional_packages}"
+run "yarn add typescript @babel/preset-typescript #{additional_packages}"
 
 say "Webpacker now supports typescript 🎉", :green
