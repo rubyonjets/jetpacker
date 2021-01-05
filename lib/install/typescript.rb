@@ -27,12 +27,11 @@ insert_into_file Jets.root.join("config/webpack/environment.js").to_s,
   "environment.loaders.prepend('typescript', typescript)\n",
   before: "module.exports"
 say "Adding TypeScript preset to babel.config.js"
-
 insert_into_file Jets.root.join("babel.config.js").to_s,
   ",\n      ['@babel/preset-typescript', { 'allExtensions': true, 'isTSX': true }]",
   before: /\s*\].filter\(Boolean\),\n\s*plugins: \[/
 
-say "Copying tsconfig.json to the Jets root directory for typescript"
+say "Copying tsconfig.json to the Rails root directory for typescript"
 copy_file "#{__dir__}/examples/#{example_source}/tsconfig.json", "tsconfig.json"
 
 say "Updating webpack paths to include .ts file extension"
