@@ -29,9 +29,40 @@ Tung
 
 Here's info on the git branch and tags strategy.
 
+* the latest upstream webpacker version that has been merged back in is v5.2.1
 * master: jetpacker fork with latest changes
-* forkpoint-1: git tag of point at which forked from rails/webpacker and changes were made. For diff: `git diff forkpoint-1..v0.2.0`
+* forkpoint-1: git tag of point at which forked from rails/webpacker and **original** changes were made. For diff: `git diff forkpoint-1..v0.2.0`
 * rails git origin: upstream origin with rails/webpacker origin
+
+## Upgrade Notes
+
+If you run bundle so that jetpacker is updated. IE:
+
+    bundle update
+    # or
+    bundle update jetpacker
+
+You can update the webpacker-related files with:
+
+    jets webpacker:install
+
+Then update the manually the environment.js
+
+config/webpacker/environment.js:
+
+```javascript
+const { environment } = require('@rails/webpacker')
+const webpack = require('webpack')
+environment.plugins.prepend('Provide', new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  Popper: ['popper.js', 'default']
+}))
+
+module.exports = environment
+```
+
+This adds jquery so the crud.js works.
 
 ## Original README
 

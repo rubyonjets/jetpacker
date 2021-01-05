@@ -6,7 +6,6 @@ default: &default
   public_root_path: public
   public_output_path: packs
   cache_path: tmp/cache/webpacker
-  check_yarn_integrity: false
   webpack_compile_output: true
 
   # Additional paths webpack should lookup modules
@@ -14,6 +13,7 @@ default: &default
   # Note: Different from original webpacker default which is resolved_paths: []
   # Unsure if app/assets is better default. Seems convenient.
   resolved_paths: ['app/assets']
+  additional_paths: []
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
@@ -59,9 +59,6 @@ default: &default
 development:
   <<: *default
   compile: true
-
-  # Verifies that correct packages and versions are installed by inspecting package.json, yarn.lock, and node_modules
-  check_yarn_integrity: true
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
