@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project *tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.5.0]
+- merge upstream webpacker v5.2.1
+- jetpacker v0.5.x ~ webpacker v5.x
+- fix turbine: yarn integrity check not longer done
+
 ## [0.4.2]
 - fix jets turbine
 
