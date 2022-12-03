@@ -34,7 +34,7 @@ if File.exists?(".gitignore")
   end
 end
 
-if Webpacker::VERSION =~ /^[0-9]+\.[0-9]+\.[0-9]+$/
+if Webpacker::VERSION.match?(/^[0-9]+\.[0-9]+\.[0-9]+$/)
   say "Installing all JavaScript dependencies [#{Webpacker::VERSION}]"
   run "yarn add @rails/webpacker@#{Webpacker::VERSION}"
 else
@@ -42,8 +42,16 @@ else
   run "yarn add @rails/webpacker@next"
 end
 
+package_json = File.read("#{__dir__}/../../package.json")
+webpack_version = package_json.match(/"webpack": "(.*)"/)[1]
+webpack_cli_version = package_json.match(/"webpack-cli": "(.*)"/)[1]
+
+# needed for experimental Yarn 2 support and should not harm Yarn 1
+say "Installing webpack and webpack-cli as direct dependencies"
+run "yarn add webpack@#{webpack_version} webpack-cli@#{webpack_cli_version}"
+
 say "Installing dev server for live reloading"
-run "yarn add --dev webpack-dev-server"
+run "yarn add --dev webpack-dev-server@^3"
 
 if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR > 1
   say "You need to allow webpack-dev-server host as allowed origin for connect-src.", :yellow
