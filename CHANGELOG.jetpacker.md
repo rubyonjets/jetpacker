@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project *tries* to adhere to [Semantic Versioning](http://semver.org/), even before v1.0.
 
+## [0.7.0]
+- [#4](https://github.com/tongueroo/jetpacker/pull/4) update babel.config.js to work with latest versions of webpack node modules #4
+
 ## [0.5.0]
 - merge upstream webpacker v5.2.1
 - jetpacker v0.5.x ~ webpacker v5.x
