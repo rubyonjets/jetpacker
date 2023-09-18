@@ -7,7 +7,7 @@ namespace :webpacker do
 
     require "rails/generators"
     require "rails/generators/rails/app/app_generator"
-    generator = Rails::Generators::AppGenerator.new [Jets.root], {force: ENV['FORCE']}, destination_root: Jets.root
+    generator = Rails::Generators::AppGenerator.new [Jets.root], { force: ENV["FORCE"] }, destination_root: Jets.root
     generator.apply install_template_path, verbose: false
   end
 end

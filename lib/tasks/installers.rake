@@ -22,7 +22,7 @@ namespace :webpacker do
       task task_name => ["webpacker:verify_install"] do
         require "rails/generators"
         require "rails/generators/rails/app/app_generator"
-        generator = Rails::Generators::AppGenerator.new [Jets.root], {force: ENV['FORCE']}, destination_root: Jets.root
+        generator = Rails::Generators::AppGenerator.new [Jets.root], { force: ENV["FORCE"] }, destination_root: Jets.root
 
         template = File.expand_path("../install/#{task_name}.rb", __dir__)
         generator.apply template, verbose: false
