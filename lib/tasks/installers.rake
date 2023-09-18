@@ -6,6 +6,7 @@ installers = {
   "Erb": :erb,
   "Coffee": :coffee,
   "Typescript": :typescript,
+  "Tailwind": :tailwind,
   "Svelte": :svelte,
   "Stimulus": :stimulus
 }.freeze
