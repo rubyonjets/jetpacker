@@ -1,5 +1,5 @@
 say "Installing tailwindcss dependencies"
-additional_packages  = "@tailwindcss/aspect-ratio @tailwindcss/forms @tailwindcss/line-clamp @tailwindcss/typography"
+additional_packages  = "@tailwindcss/aspect-ratio @tailwindcss/forms @tailwindcss/typography"
 run "yarn add @rails/ujs"
 run "yarn add tailwindcss #{additional_packages}"
 
