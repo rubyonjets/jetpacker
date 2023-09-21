@@ -13,60 +13,60 @@ module Webpacker
     end
 
     private
-      def load_config
-        app_root = Pathname.new(@app_path)
+    def load_config
+      app_root = Pathname.new(@app_path)
 
-        @config = Configuration.new(
-          root_path: app_root,
-          config_path: app_root.join("config/webpacker.yml"),
-          env: ENV["JETS_ENV"]
-        )
+      @config = Configuration.new(
+        root_path: app_root,
+        config_path: app_root.join("config/webpacker.yml"),
+        env: ENV["JETS_ENV"]
+      )
 
-        dev_server = DevServer.new(@config)
+      dev_server = DevServer.new(@config)
 
-        @hostname          = dev_server.host
-        @port              = dev_server.port
-        @pretty            = dev_server.pretty?
+      @hostname          = dev_server.host
+      @port              = dev_server.port
+      @pretty            = dev_server.pretty?
 
-      rescue Errno::ENOENT, NoMethodError
-        $stdout.puts "webpack dev_server configuration not found in #{@config.config_path}[#{ENV["JETS_ENV"]}]."
-        $stdout.puts "Please run bundle exec rails webpacker:install to install Webpacker"
-        exit!
+    rescue Errno::ENOENT, NoMethodError
+      $stdout.puts "webpack dev_server configuration not found in #{@config.config_path}[#{ENV["JETS_ENV"]}]."
+      $stdout.puts "Please run bundle exec rails webpacker:install to install Webpacker"
+      exit!
+    end
+
+    def detect_port!
+      server = TCPServer.new(@hostname, @port)
+      server.close
+
+    rescue Errno::EADDRINUSE
+      $stdout.puts "Another program is running on port #{@port}. Set a new port in #{@config.config_path} for dev_server"
+      exit!
+    end
+
+    def execute_cmd
+      env = Webpacker::Compiler.env
+      env["WEBPACKER_CONFIG"] = @webpacker_config
+
+      cmd = if node_modules_bin_exist?
+        ["#{@node_modules_bin_path}/webpack-dev-server"]
+      else
+        ["yarn", "webpack-dev-server"]
       end
 
-      def detect_port!
-        server = TCPServer.new(@hostname, @port)
-        server.close
-
-      rescue Errno::EADDRINUSE
-        $stdout.puts "Another program is running on port #{@port}. Set a new port in #{@config.config_path} for dev_server"
-        exit!
+      if @argv.include?("--debug-webpacker")
+        cmd = [ "node", "--inspect-brk"] + cmd
       end
 
-      def execute_cmd
-        env = Webpacker::Compiler.env
-        env["WEBPACKER_CONFIG"] = @webpacker_config
+      cmd += ["--config", @webpack_config]
+      cmd += ["--progress", "--color"] if @pretty
 
-        cmd = if node_modules_bin_exist?
-          ["#{@node_modules_bin_path}/webpack-dev-server"]
-        else
-          ["yarn", "webpack-dev-server"]
-        end
-
-        if @argv.include?("--debug-webpacker")
-          cmd = [ "node", "--inspect-brk"] + cmd
-        end
-
-        cmd += ["--config", @webpack_config]
-        cmd += ["--progress", "--color"] if @pretty
-
-        Dir.chdir(@app_path) do
-          Kernel.exec env, *cmd
-        end
+      Dir.chdir(@app_path) do
+        Kernel.exec env, *cmd
       end
+    end
 
-      def node_modules_bin_exist?
-        File.exist?("#{@node_modules_bin_path}/webpack-dev-server")
-      end
+    def node_modules_bin_exist?
+      File.exist?("#{@node_modules_bin_path}/webpack-dev-server")
+    end
   end
 end

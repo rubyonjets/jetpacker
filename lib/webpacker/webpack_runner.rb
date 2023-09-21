@@ -25,8 +25,8 @@ module Webpacker
     end
 
     private
-      def node_modules_bin_exist?
-        File.exist?("#{@node_modules_bin_path}/webpack")
-      end
+    def node_modules_bin_exist?
+      File.exist?("#{@node_modules_bin_path}/webpack")
+    end
   end
 end

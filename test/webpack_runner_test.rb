@@ -25,27 +25,27 @@ class WebpackRunnerTest < Webpacker::Test
   end
 
   private
-    def test_app_path
-      File.expand_path("test_app", __dir__)
-    end
+  def test_app_path
+    File.expand_path("test_app", __dir__)
+  end
 
-    def verify_command(cmd, use_node_modules: true)
-      cwd = Dir.pwd
-      Dir.chdir(test_app_path)
+  def verify_command(cmd, use_node_modules: true)
+    cwd = Dir.pwd
+    Dir.chdir(test_app_path)
 
-      klass = Webpacker::WebpackRunner
-      instance = klass.new([])
-      mock = Minitest::Mock.new
-      mock.expect(:call, nil, [Webpacker::Compiler.env, *cmd])
+    klass = Webpacker::WebpackRunner
+    instance = klass.new([])
+    mock = Minitest::Mock.new
+    mock.expect(:call, nil, [Webpacker::Compiler.env, *cmd])
 
-      klass.stub(:new, instance) do
-        instance.stub(:node_modules_bin_exist?, use_node_modules) do
-          Kernel.stub(:exec, mock) { klass.run([]) }
-        end
+    klass.stub(:new, instance) do
+      instance.stub(:node_modules_bin_exist?, use_node_modules) do
+        Kernel.stub(:exec, mock) { klass.run([]) }
       end
-
-      mock.verify
-    ensure
-      Dir.chdir(cwd)
     end
+
+    mock.verify
+  ensure
+    Dir.chdir(cwd)
+  end
 end

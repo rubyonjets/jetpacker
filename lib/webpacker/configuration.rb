@@ -76,53 +76,53 @@ class Webpacker::Configuration
   end
 
   private
-    def resolved_paths
-      paths = data.fetch(:resolved_paths, [])
+  def resolved_paths
+    paths = data.fetch(:resolved_paths, [])
 
-      warn "The resolved_paths option has been deprecated. Use additional_paths instead." unless paths.empty?
+    warn "The resolved_paths option has been deprecated. Use additional_paths instead." unless paths.empty?
 
-      paths
+    paths
+  end
+
+  def fetch(key)
+    data.fetch(key, defaults[key])
+  end
+
+  def data
+    @data ||= load
+  end
+
+  def load
+    config = begin
+      YAML.load_file(config_path.to_s, aliases: true)
+    rescue ArgumentError
+      YAML.load_file(config_path.to_s)
     end
+    config[env].deep_symbolize_keys
+  rescue Errno::ENOENT => e
+    raise "Webpacker configuration file not found #{config_path}. " \
+          "Please run rails webpacker:install " \
+          "Error: #{e.message}"
 
-    def fetch(key)
-      data.fetch(key, defaults[key])
-    end
+  rescue Psych::SyntaxError => e
+    raise "YAML syntax error occurred while parsing #{config_path}. " \
+          "Please note that YAML must be consistently indented using spaces. Tabs are not allowed. " \
+          "Error: #{e.message}"
+  end
 
-    def data
-      @data ||= load
-    end
-
-    def load
+  def defaults
+    @defaults ||= begin
+      path = File.expand_path("../../install/config/webpacker.yml", __FILE__)
       config = begin
-        YAML.load_file(config_path.to_s, aliases: true)
+        YAML.load_file(path, aliases: true)
       rescue ArgumentError
-        YAML.load_file(config_path.to_s)
+        YAML.load_file(path)
       end
-      config[env].deep_symbolize_keys
-    rescue Errno::ENOENT => e
-      raise "Webpacker configuration file not found #{config_path}. " \
-            "Please run rails webpacker:install " \
-            "Error: #{e.message}"
-
-    rescue Psych::SyntaxError => e
-      raise "YAML syntax error occurred while parsing #{config_path}. " \
-            "Please note that YAML must be consistently indented using spaces. Tabs are not allowed. " \
-            "Error: #{e.message}"
+      HashWithIndifferentAccess.new(config[env])
     end
+  end
 
-    def defaults
-      @defaults ||= begin
-        path = File.expand_path("../../install/config/webpacker.yml", __FILE__)
-        config = begin
-          YAML.load_file(path, aliases: true)
-        rescue ArgumentError
-          YAML.load_file(path)
-        end
-        HashWithIndifferentAccess.new(config[env])
-      end
-    end
-
-    def globbed_path_with_extensions(path)
-      "#{path}/**/*{#{extensions.join(',')}}"
-    end
+  def globbed_path_with_extensions(path)
+    "#{path}/**/*{#{extensions.join(',')}}"
+  end
 end

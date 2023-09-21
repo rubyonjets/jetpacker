@@ -45,7 +45,7 @@ Style/HashSyntax:
 # extra level of indentation.
 Layout/IndentationConsistency:
   Enabled: true
-  EnforcedStyle: indented_internal_methods
+  EnforcedStyle: normal
 
 # Detect hard tabs, no hard tabs.
 Layout/IndentationStyle:
