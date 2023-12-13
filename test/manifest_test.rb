@@ -59,15 +59,15 @@ class ManifestTest < Minitest::Test
 
   private
 
-    def assert_raises_manifest_missing_entry_error(&block)
-      error = nil
-      Webpacker.config.stub :compile?, false do
-        error = assert_raises Webpacker::Manifest::MissingEntryError, &block
-      end
-      error
+  def assert_raises_manifest_missing_entry_error(&block)
+    error = nil
+    Webpacker.config.stub :compile?, false do
+      error = assert_raises Webpacker::Manifest::MissingEntryError, &block
     end
+    error
+  end
 
-    def manifest_path
-      File.expand_path File.join(File.dirname(__FILE__), "test_app/public/packs", "manifest.json").to_s
-    end
+  def manifest_path
+    File.expand_path File.join(File.dirname(__FILE__), "test_app/public/packs", "manifest.json").to_s
+  end
 end

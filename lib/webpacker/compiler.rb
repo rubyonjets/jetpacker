@@ -44,68 +44,68 @@ class Webpacker::Compiler
   end
 
   private
-    attr_reader :webpacker
+  attr_reader :webpacker
 
-    def last_compilation_digest
-      compilation_digest_path.read if compilation_digest_path.exist? && config.public_manifest_path.exist?
-    rescue Errno::ENOENT, Errno::ENOTDIR
-    end
+  def last_compilation_digest
+    compilation_digest_path.read if compilation_digest_path.exist? && config.public_manifest_path.exist?
+  rescue Errno::ENOENT, Errno::ENOTDIR
+  end
 
-    def watched_files_digest
-      warn "Webpacker::Compiler.watched_paths has been deprecated. Set additional_paths in webpacker.yml instead." unless watched_paths.empty?
+  def watched_files_digest
+    warn "Webpacker::Compiler.watched_paths has been deprecated. Set additional_paths in webpacker.yml instead." unless watched_paths.empty?
 
-      files = Dir[*default_watched_paths, *watched_paths].reject { |f| File.directory?(f) }
-      file_ids = files.sort.map { |f| "#{File.basename(f)}/#{Digest::SHA1.file(f).hexdigest}" }
-      Digest::SHA1.hexdigest(file_ids.join("/"))
-    end
+    files = Dir[*default_watched_paths, *watched_paths].reject { |f| File.directory?(f) }
+    file_ids = files.sort.map { |f| "#{File.basename(f)}/#{Digest::SHA1.file(f).hexdigest}" }
+    Digest::SHA1.hexdigest(file_ids.join("/"))
+  end
 
-    def record_compilation_digest
-      config.cache_path.mkpath
-      compilation_digest_path.write(watched_files_digest)
-    end
+  def record_compilation_digest
+    config.cache_path.mkpath
+    compilation_digest_path.write(watched_files_digest)
+  end
 
-    def run_webpack
-      logger.info "Compiling..."
+  def run_webpack
+    logger.info "Compiling..."
 
-      stdout, stderr, status = Open3.capture3(
-        webpack_env,
-        "#{RbConfig.ruby} ./bin/webpack",
-        chdir: File.expand_path(config.root_path)
-      )
+    stdout, stderr, status = Open3.capture3(
+      webpack_env,
+      "#{RbConfig.ruby} ./bin/webpack",
+      chdir: File.expand_path(config.root_path)
+    )
 
-      if status.success?
-        logger.info "Compiled all packs in #{config.public_output_path}"
-        logger.error "#{stderr}" unless stderr.empty?
+    if status.success?
+      logger.info "Compiled all packs in #{config.public_output_path}"
+      logger.error "#{stderr}" unless stderr.empty?
 
-        if config.webpack_compile_output?
-          logger.info stdout
-        end
-      else
-        non_empty_streams = [stdout, stderr].delete_if(&:empty?)
-        logger.error "Compilation failed:\n#{non_empty_streams.join("\n\n")}"
+      if config.webpack_compile_output?
+        logger.info stdout
       end
-
-      status.success?
+    else
+      non_empty_streams = [stdout, stderr].delete_if(&:empty?)
+      logger.error "Compilation failed:\n#{non_empty_streams.join("\n\n")}"
     end
 
-    def default_watched_paths
-      [
-        *config.additional_paths_globbed,
-        config.source_path_globbed,
-        "yarn.lock", "package.json",
-        "config/webpack/**/*"
-      ].freeze
-    end
+    status.success?
+  end
 
-    def compilation_digest_path
-      config.cache_path.join("last-compilation-digest-#{webpacker.env}")
-    end
+  def default_watched_paths
+    [
+      *config.additional_paths_globbed,
+      config.source_path_globbed,
+      "yarn.lock", "package.json",
+      "config/webpack/**/*"
+    ].freeze
+  end
 
-    def webpack_env
-      return env unless defined?(ActionController::Base)
+  def compilation_digest_path
+    config.cache_path.join("last-compilation-digest-#{webpacker.env}")
+  end
 
-      env.merge("WEBPACKER_ASSET_HOST"        => ENV.fetch("WEBPACKER_ASSET_HOST", ActionController::Base.helpers.compute_asset_host),
-                "WEBPACKER_RELATIVE_URL_ROOT" => ENV.fetch("WEBPACKER_RELATIVE_URL_ROOT", ActionController::Base.relative_url_root),
-                "WEBPACKER_CONFIG" => webpacker.config_path.to_s)
-    end
+  def webpack_env
+    return env unless defined?(ActionController::Base)
+
+    env.merge("WEBPACKER_ASSET_HOST"        => ENV.fetch("WEBPACKER_ASSET_HOST", ActionController::Base.helpers.compute_asset_host),
+              "WEBPACKER_RELATIVE_URL_ROOT" => ENV.fetch("WEBPACKER_RELATIVE_URL_ROOT", ActionController::Base.relative_url_root),
+              "WEBPACKER_CONFIG" => webpacker.config_path.to_s)
+  end
 end

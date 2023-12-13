@@ -26,8 +26,8 @@ Gem::Specification.new do |s|
   s.add_dependency "rack-proxy",    ">= 0.6.1"
   s.add_dependency "semantic_range", ">= 2.3.0"
 
-  s.add_development_dependency "bundler", ">= 1.3.0"
-  s.add_development_dependency "rubocop", "< 0.69"
+  s.add_development_dependency "bundler", ">= 2.4.19"
+  s.add_development_dependency "rubocop", ">= 1.5.6"
   s.add_development_dependency "rubocop-performance"
   s.add_development_dependency "rspec-core"
 

@@ -56,11 +56,11 @@ class Webpacker::DevServer
   end
 
   private
-    def fetch(key)
-      ENV["#{env_prefix}_#{key.upcase}"] || config.dev_server.fetch(key, defaults[key])
-    end
+  def fetch(key)
+    ENV["#{env_prefix}_#{key.upcase}"] || config.dev_server.fetch(key, defaults[key])
+  end
 
-    def defaults
-      config.send(:defaults)[:dev_server] || {}
-    end
+  def defaults
+    config.send(:defaults)[:dev_server] || {}
+  end
 end

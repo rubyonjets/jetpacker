@@ -65,17 +65,17 @@ class RakeTasksTest < Minitest::Test
   end
 
   private
-    def test_app_path
-      File.expand_path("test_app", __dir__)
-    end
+  def test_app_path
+    File.expand_path("test_app", __dir__)
+  end
 
-    def test_app_dev_dependencies
-      package_json = File.expand_path("package.json", test_app_path)
-      JSON.parse(File.read(package_json))["devDependencies"]
-    end
+  def test_app_dev_dependencies
+    package_json = File.expand_path("package.json", test_app_path)
+    JSON.parse(File.read(package_json))["devDependencies"]
+  end
 
-    def installed_node_module_names
-      node_modules_path = File.expand_path("node_modules", test_app_path)
-      Dir.chdir(node_modules_path) { Dir.glob("*") }
-    end
+  def installed_node_module_names
+    node_modules_path = File.expand_path("node_modules", test_app_path)
+    Dir.chdir(node_modules_path) { Dir.glob("*") }
+  end
 end

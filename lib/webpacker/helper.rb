@@ -174,22 +174,22 @@ module Webpacker::Helper
   end
 
   private
-    def stylesheet?(name)
-      File.extname(name) == ".css"
-    end
+  def stylesheet?(name)
+    File.extname(name) == ".css"
+  end
 
-    def sources_from_manifest_entries(names, type:)
-      names.map { |name| current_webpacker_instance.manifest.lookup!(name, type: type) }.flatten
-    end
+  def sources_from_manifest_entries(names, type:)
+    names.map { |name| current_webpacker_instance.manifest.lookup!(name, type: type) }.flatten
+  end
 
-    def sources_from_manifest_entrypoints(names, type:)
-      names.map { |name| current_webpacker_instance.manifest.lookup_pack_with_chunks!(name, type: type) }.flatten.uniq
-    end
+  def sources_from_manifest_entrypoints(names, type:)
+    names.map { |name| current_webpacker_instance.manifest.lookup_pack_with_chunks!(name, type: type) }.flatten.uniq
+  end
 
-    def resolve_path_to_image(name)
-      path = name.starts_with?("media/images/") ? name : "media/images/#{name}"
-      path_to_asset(current_webpacker_instance.manifest.lookup!(path))
-    rescue
-      path_to_asset(current_webpacker_instance.manifest.lookup!(name))
-    end
+  def resolve_path_to_image(name)
+    path = name.starts_with?("media/images/") ? name : "media/images/#{name}"
+    path_to_asset(current_webpacker_instance.manifest.lookup!(path))
+  rescue
+    path_to_asset(current_webpacker_instance.manifest.lookup!(name))
+  end
 end

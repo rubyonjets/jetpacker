@@ -54,21 +54,21 @@ class Webpacker::Commands
   end
 
   private
-    def versions
-      all_files       = Dir.glob("#{config.public_output_path}/**/*")
-      manifest_config = Dir.glob("#{config.public_manifest_path}*")
+  def versions
+    all_files       = Dir.glob("#{config.public_output_path}/**/*")
+    manifest_config = Dir.glob("#{config.public_manifest_path}*")
 
-      packs = all_files - manifest_config - current_version
-      packs.reject { |file| File.directory?(file) }.group_by { |file| File.mtime(file).utc.to_i }
-    end
+    packs = all_files - manifest_config - current_version
+    packs.reject { |file| File.directory?(file) }.group_by { |file| File.mtime(file).utc.to_i }
+  end
 
-    def current_version
-      packs = manifest.refresh.values.map do |value|
-        next if value.is_a?(Hash)
+  def current_version
+    packs = manifest.refresh.values.map do |value|
+      next if value.is_a?(Hash)
 
-        File.join(config.root_path, "public", "#{value}*")
-      end.compact
+      File.join(config.root_path, "public", "#{value}*")
+    end.compact
 
-      Dir.glob(packs).uniq
-    end
+    Dir.glob(packs).uniq
+  end
 end
