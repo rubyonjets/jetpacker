@@ -18,6 +18,7 @@ tasks = {
   "webpacker:install:stimulus"        => "Installs and setup example Stimulus component",
   "webpacker:install:erb"             => "Installs Erb loader with an example",
   "webpacker:install:coffee"          => "Installs CoffeeScript loader with an example",
+  "webpacker:install:tailwind"        => "Installs Tailwind",
   "webpacker:install:typescript"      => "Installs Typescript loader with an example"
 }.freeze
 

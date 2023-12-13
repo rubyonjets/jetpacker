@@ -36,4 +36,4 @@ jobs:
           bundle install
 
       - name: Ruby linter
-        run: bundle exec rubocop
+        run: rubocop
